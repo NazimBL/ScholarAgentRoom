@@ -25,6 +25,39 @@ AgentRoom is built to demonstrate advanced multi-agent coordination using **Auto
 
 ---
 
+---
+
+## Usage
+
+### Core Workflow
+
+1. **Create New Session**: Click "New Session" to initialize a conversation thread.
+2. **Configure Agents**: Toggle desired agents (BioExpert, AIExpert, Reviewer, GrantsWriter).
+3. **Select Mode**: Choose **Freestyle** or **Evidence-based** (forces structured critique format).
+4. **Submit Prompt**: Paste research idea or grant abstract and click **Run Panel Round**.
+5. **Review Output**: Agents deliberate in round-robin; messages stream live to chat panel.
+6. **Multi-Turn**: Continue discussing; history is retained per session.
+
+### Interface Overview
+
+![AgentRoom Interface](screenshots/Agentroom.png)
+
+*Main UI showing chat panel (left), controls (right), with agent toggles and mode selection.*
+
+![Agent Response 1](screenshots/agentroom1.png)
+
+*Example: Agents discussing research methodology with structured feedback.*
+
+![Agent Response 2](screenshots/agentroom2.png)
+
+*Real-time agent deliberation in evidence-based mode.*
+
+![Panel Discussion](screenshots/agentroom3.png)
+
+*Multi-turn conversation with full history preservation.*
+
+---
+
 ### Deployment Setup
 
 For me I deployed this to a **GPU-accelerated cluster** accessed securely via **SSH tunnel**:
@@ -129,38 +162,7 @@ ssh -L 3000:cluster-node-01:3000 your-user@cluster-gateway.example.com
 # FastAPI will communicate with the LLM inference layer on the cluster
 ```
 
----
 
-## Usage
-
-### Core Workflow
-
-1. **Create New Session**: Click "New Session" to initialize a conversation thread.
-2. **Configure Agents**: Toggle desired agents (BioExpert, AIExpert, Reviewer, GrantsWriter).
-3. **Select Mode**: Choose **Freestyle** or **Evidence-based** (forces structured critique format).
-4. **Submit Prompt**: Paste research idea or grant abstract and click **Run Panel Round**.
-5. **Review Output**: Agents deliberate in round-robin; messages stream live to chat panel.
-6. **Multi-Turn**: Continue discussing; history is retained per session.
-
-### Interface Overview
-
-![AgentRoom Interface](screenshots/Agentroom.png)
-
-*Main UI showing chat panel (left), controls (right), with agent toggles and mode selection.*
-
-![Agent Response 1](screenshots/agentroom1.png)
-
-*Example: Agents discussing research methodology with structured feedback.*
-
-![Agent Response 2](screenshots/agentroom2.png)
-
-*Real-time agent deliberation in evidence-based mode.*
-
-![Panel Discussion](screenshots/agentroom3.png)
-
-*Multi-turn conversation with full history preservation.*
-
----
 
 ## Backend Details
 
