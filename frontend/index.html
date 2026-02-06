@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>AgentRoom | Scientific War Room</title>
+  <style>
+    :root { --bg: #f8f9fa; --border: #e0e0e0; --accent: #2563eb; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; margin: 0; background: var(--bg); }
+    .wrap { display: grid; grid-template-columns: 1fr 350px; height: 100vh; }
+    
+    /* Left side: Chat */
+    .chat-container { display: flex; flex-direction: column; background: white; border-right: 1px solid var(--border); }
+    .header { padding: 15px 25px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+    #chatlog { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 15px; }
+    
+    /* Message Bubbles */
+    .msg { padding: 12px 16px; border-radius: 8px; max-width: 85%; border: 1px solid var(--border); line-height: 1.5; }
+    .msg.user { align-self: flex-end; background: #f1f5f9; border: none; }
+    .msg.assistant { align-self: flex-start; background: white; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+    .name { font-weight: 800; font-size: 0.8rem; margin-bottom: 4px; text-transform: uppercase; color: var(--accent); }
+    
+    /* Right side: Sidebar */
+    .panel { padding: 25px; background: var(--bg); overflow-y: auto; }
+    .section { margin-bottom: 25px; }
+    h3 { font-size: 0.9rem; color: #64748b; margin-bottom: 12px; }
+    select, textarea, button { width: 100%; border-radius: 6px; border: 1px solid var(--border); font-size: 0.95rem; }
+    textarea { height: 120px; padding: 10px; box-sizing: border-box; resize: none; margin-bottom: 10px; }
+    button { padding: 12px; background: var(--accent); color: white; border: none; font-weight: 600; cursor: pointer; transition: opacity 0.2s; }
+    button:hover { opacity: 0.9; }
+    button:disabled { background: #94a3b8; cursor: not-allowed; }
+    .agent-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="chat-container">
+      <div class="header">
+        <h2 style="margin:0; font-size:1.2rem;">AgentRoom MVP</h2>
+        <span id="sessionTag" style="color:#94a3b8; font-size:0.8rem;"></span>
+      </div>
+      <div id="chatlog"></div>
+    </div>
+
+    <div class="panel">
+      <div class="section">
+        <h3>CONTROLS</h3>
+        <button id="newSessBtn" style="background:#64748b; margin-bottom:10px;">New Session</button>
+        <select id="mode">
+          <option value="FREESTYLE">Mode: Freestyle</option>
+          <option value="EVIDENCE">Mode: Evidence-based</option>
+        </select>
+      </div>
+
+      <div class="section">
+        <h3>ACTIVE AGENTS</h3>
+        <div id="agentRoster">
+          <div class="agent-row"><input type="checkbox" class="agent-cb" value="BioExpert" checked> BioExpert</div>
+          <div class="agent-row"><input type="checkbox" class="agent-cb" value="AIExpert" checked> AIExpert</div>
+          <div class="agent-row"><input type="checkbox" class="agent-cb" value="Reviewer" checked> Reviewer</div>
+          <div class="agent-row"><input type="checkbox" class="agent-cb" value="GrantsWriter" checked> GrantsWriter</div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>INPUT</h3>
+        <textarea id="prompt" placeholder="Paste your research idea or grant abstract here..."></textarea>
+        <button id="runBtn">Run Panel Round</button>
+        <p id="status" style="font-size:0.8rem; color:var(--accent); margin-top:10px;"></p>
+      </div>
+    </div>
+  </div>
+  <script src="/static/app.js"></script>
+</body>

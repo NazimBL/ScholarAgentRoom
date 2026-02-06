@@ -1,0 +1,42 @@
+[
+  {
+    "role": "user",
+    "name": "User",
+    "content": "I am working on a defining research ideas to explore chromatin folding using 4d nucleosome data"
+  },
+  {
+    "role": "assistant",
+    "name": "user",
+    "content": "\n\nUSER PROMPT: I am working on a defining research ideas to explore chromatin folding using 4d nucleosome data\n\nModerator, please start the panel discussion."
+  },
+  {
+    "role": "assistant",
+    "name": "Moderator",
+    "content": "[SIMULATED local] \n\nUSER PROMPT: I am working on a defining research ideas to explore chromatin folding using 4d nucleosome data\n\nModerator, please start the panel discussion."
+  },
+  {
+    "role": "assistant",
+    "name": "BioExpert",
+    "content": "[SIMULATED local] [SIMULATED local] \n\nUSER PROMPT: I am working on a defining research ideas to explore chromatin folding using 4d nucleosome data\n\nModerator, please start the panel discussion."
+  },
+  {
+    "role": "assistant",
+    "name": "AIExpert",
+    "content": "[SIMULATED local] [SIMULATED local] [SIMULATED local] \n\nUSER PROMPT: I am working on a defining research ideas to explore chromatin folding using 4d nucleosome data\n\nModerator, please start the panel discussion."
+  },
+  {
+    "role": "assistant",
+    "name": "Reviewer",
+    "content": "[SIMULATED local] [SIMULATED local] [SIMULATED local] [SIMULATED local] \n\nUSER PROMPT: I am working on a defining research ideas to explore chromatin folding using 4d nucleosome data\n\nModerator, please start the panel discussion."
+  },
+  {
+    "role": "assistant",
+    "name": "GrantsWriter",
+    "content": "[SIMULATED local] [SIMULATED local] [SIMULATED local] [SIMULATED local] [SIMULATED local] \n\nUSER PROMPT: I am working on a defining research ideas to explore chromatin folding using 4d nucleosome data\n\nModerator, please start the panel discussion."
+  },
+  {
+    "role": "assistant",
+    "name": "Moderator",
+    "content": "[SIMULATED local] [SIMULATED local] [SIMULATED local] [SIMULATED local] [SIMULATED local] [SIMULATED local] \n\nUSER PROMPT: I am working on a defining research ideas to explore chromatin folding using 4d nucleosome data\n\nModerator, please start the panel discussion."
+  }
+]
