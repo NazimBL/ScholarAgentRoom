@@ -1,10 +1,7 @@
-# Scholar AgentRoom — Multi-Agent Panel Discussion System
-
-On this project I experimented building a multi-agent conversational chat system from scratch. It uses an AutoGen orchestrator to run expert-level brainstorming sessions, bringing together specialized AI agents (a Biology expert, AI engineer, Reviewer, and Scientific grand writer) to battle-test research proposals and simulate a high-stakes scientific panel (Evidence mode), or a more relax brainstorming session (Freestyle mode).
 
 ## Overview
 
-AgentRoom is built to demonstrate advanced multi-agent coordination using **AutoGen**, enabling realistic expert-panel-style brainstorming and critique. Users submit research prompts, and a configurable team of AI agents with distinct domain expertise collaborate in a structured round-robin discussion to generate actionable feedback.
+On this project I experimented building a multi-agent conversational chat system. I use an AutoGen orchestrator to run expert-level brainstorming sessions, bringing together specialized AI agents (a Biology expert, AI engineer, scientific reviewer, and a grant writer) to battle-test research proposals and simulate high-stakes scientific panel (Evidence mode), or a more relaxed brainstorming session (Freestyle mode).
 
 ### Key Features
 
