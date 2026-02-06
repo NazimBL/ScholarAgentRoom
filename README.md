@@ -1,6 +1,6 @@
 # AgentRoom — Multi-Agent Panel Discussion System
 
-A sophisticated web-based platform for orchestrating collaborative multi-agent AI conversations. **AgentRoom** enables specialized AI agents (Biology Expert, AI/ML Expert, Reviewer, Grants Writer) to engage in structured panel discussions about research ideas and scientific proposals, simulating expert deliberation at scale.
+A web-based platform for orchestrating collaborative multi-agent AI conversations. **Scholar AgentRoom** enables specialized AI agents (a Biology Expert, AI/ML Expert, Reviewer, Grants Writer) to engage in structured panel discussions about research ideas and scientific proposals, simulating expert deliberation at scale.
 
 ## Overview
 
@@ -25,22 +25,9 @@ AgentRoom is built to demonstrate advanced multi-agent coordination using **Auto
 
 ---
 
-## Architecture
-
-### Stack
-
-| Component       | Technology                              |
-|-----------------|----------------------------------------|
-| **Backend**     | FastAPI, Uvicorn, AsyncIO              |
-| **Agents**      | AutoGen (`autogen_agentchat`, `autogen_ext`) |
-| **LLM Client**  | OpenAI (`autogen_ext.models.openai`)   |
-| **Frontend**    | Vanilla JavaScript, modern CSS Grid    |
-| **Storage**     | JSON-based session files                |
-| **Environment** | Python 3.14+, managed with `uv`        |
-
 ### Deployment Setup
 
-**AgentRoom** is deployed to a **GPU-accelerated cluster** accessed securely via **SSH tunnel**:
+For me I deployed this to a **GPU-accelerated cluster** accessed securely via **SSH tunnel**:
 
 ```bash
 # SSH tunnel bridges local client to remote cluster LLM server
@@ -292,22 +279,6 @@ agentroom/
 
 ---
 
-## Dependencies
-
-| Package           | Purpose                                 |
-|-------------------|-----------------------------------------|
-| `fastapi`         | Web framework & async routing           |
-| `uvicorn`         | ASGI server                             |
-| `autogen`         | Legacy autogen bridge (empty shim)      |
-| `autogen_core`    | Core agent runtime & messaging          |
-| `autogen_agentchat` | Agent chat abstractions & teams        |
-| `autogen_ext`     | OpenAI & extended model clients         |
-| `openai`          | OpenAI SDK (for `autogen_ext`)          |
-| `python-dotenv`   | Environment variable loading            |
-| `pydantic`        | Data validation                         |
-
----
-
 ## Development & Testing
 
 ### Local Testing (with Fallback Client)
@@ -341,21 +312,6 @@ python -m uvicorn backend.app:app --reload
 
 ---
 
-## Portfolio Context
-
-**AgentRoom** demonstrates:
-
-✅ **Multi-agent orchestration** at scale  
-✅ **Async Python** patterns (FastAPI, asyncio, AutoGen)  
-✅ **Secure remote access** via SSH tunnels  
-✅ **LLM integration** with pluggable model clients  
-✅ **Full-stack development**: Backend design + Frontend UX  
-✅ **Production-ready architecture** for cluster deployment  
-
-This project showcases the ability to build complex, real-world AI systems that handle concurrency, remote infrastructure, and user-facing applications.
-
----
-
 ## License
 
 Proprietary. For portfolio use only.
@@ -365,17 +321,3 @@ Proprietary. For portfolio use only.
 ## Contact & Questions
 
 For questions or collaboration inquiries, please reach out.
-
----
-
-## Acknowledgments
-
-- **AutoGen**: Microsoft's open-source multi-agent framework
-- **FastAPI**: Modern async web framework
-- **VLLM**: Efficient LLM inference engine
-- **OpenAI**: GPT models as reference LLM
-
----
-
-**Last Updated**: February 2026  
-**Status**: ✅ Fully Functional
