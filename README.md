@@ -155,35 +155,6 @@ ssh -L 3000:cluster-node-01:3000 your-user@cluster-gateway.example.com
 
 # Then connect locally to http://localhost:3000
 # FastAPI will communicate with the LLM inference layer on the cluster
-```
-
-
-
-## Backend Details
-
-### API Endpoints
-
-#### `POST /api/new_session`
-- Creates a new conversation session.
-- **Response**: `{ "session_id": "abc123", "messages": [] }`
-
-#### `POST /api/run_round`
-- Executes one panel round.
-- **Body**:
-  ```json
-  {
-    "session_id": "abc123",
-    "user_prompt": "Can we use ML to predict protein folding?",
-    "mode": "FREESTYLE",
-    "enabled_agents": ["BioExpert", "AIExpert", "Reviewer", "GrantsWriter"]
-  }
-  ```
-- **Response**: `{ "messages": [...] }` (full conversation history)
-
-#### `GET /`
-- Serves frontend HTML.
-
-### Session Storage
 
 Conversations are persisted as JSON files in `sessions/` directory:
 ```
@@ -213,47 +184,6 @@ Defined in `backend/prompts.py`:
 4) Concrete improvement
 5) Confidence (High/Med/Low)
 ```
-
----
-
-## Infrastructure: Remote Cluster
-
-### Cluster Setup
-
-AgentRoom is tested with a **multi-GPU cluster** running:
-- **VLLM Server** for efficient local LLM inference (see `screenshots/vllm_server.png`)
-- **FastAPI** backend deployed on compute nodes
-- **SSH tunnel** for secure client–server bridge
-
-Example VLLM deployment:
-```bash
-# On cluster node with GPUs
-python -m vllm.entrypoints.openai_api_server \
-  --model meta-llama/Llama-2-7b-chat-hf \
-  --tensor-parallel-size 4 \
-  --port 8000
-```
-
-Then AgentRoom connects via:
-```env
-LLM_MODEL=meta-llama/Llama-2-7b-chat-hf
-LLM_BASE_URL=http://localhost:8000/v1
-```
-
-### SSH Tunnel for Production
-
-```bash
-# Establish persistent tunnel (on client machine)
-ssh -N -L 3000:compute-01:3000 \
-    -L 8001:compute-01:8000 \
-    cluster-user@gateway.example.com &
-
-# AgentRoom UI at localhost:3000
-# VLLM at localhost:8001
-```
-
----
-
 ## Project Structure
 
 ```
@@ -274,29 +204,6 @@ agentroom/
 └── README.md               # This file
 ```
 
----
-
-## Development & Testing
-
-### Local Testing (with Fallback Client)
-
-If `LLM_API_KEY` is not set, AgentRoom falls back to a **LocalEchoClient** for offline testing:
-
-```bash
-# No .env file needed; agents return simulated responses
-python -m uvicorn backend.app:app --reload --port 3000
-```
-
-### Enable Logging
-
-Set environment variable:
-```bash
-export AUTOGEN_LOG_LEVEL=INFO
-python -m uvicorn backend.app:app --reload
-```
-
----
-
 ## Future Enhancements
 
 - [ ] **Streaming Responses**: Real-time token streaming from LLM to UI
@@ -306,12 +213,6 @@ python -m uvicorn backend.app:app --reload
 - [ ] **Web-Based Editor**: Define system prompts on-the-fly in UI
 - [ ] **Team Variants**: Swarm behavior, hierarchical decision-making
 - [ ] **Database Backend**: Replace JSON sessions with PostgreSQL for scale
-
----
-
-## License
-
-Proprietary. For portfolio use only.
 
 ---
 
