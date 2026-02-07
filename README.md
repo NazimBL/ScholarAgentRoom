@@ -47,23 +47,8 @@ On this project I experimented building a multi-agent conversational chat system
 
 ---
 
-### Deployment Setup
-
-For me I deployed this to a **GPU-accelerated cluster** accessed securely via **SSH tunnel**:
-
-```bash
-# SSH tunnel bridges local client to remote cluster LLM server
-ssh -L 8000:localhost:8000 user@cluster-gateway.org "cd /path/to/agentroom && python -m uvicorn backend.app:app"
-```
-
-This architecture enables:
-- Efficient inference on distributed GPUs
-- Secure, encrypted communication
-- Decoupling of model computation from client-side UI
-
----
-
 ## System Architecture Diagram
+I deployed this to a GPU-accelerated cluster accessed securely via SSH tunnel:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
