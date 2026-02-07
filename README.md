@@ -22,7 +22,7 @@ On this project I experimented building a multi-agent conversational chat system
 
 ---
 
-### Core Workflow
+###  Workflow
 
 1. **Create New Session**: Click "New Session" to initialize a conversation thread.
 2. **Configure Agents**: Toggle desired agents (BioExpert, AIExpert, Reviewer, GrantsWriter).
@@ -32,10 +32,6 @@ On this project I experimented building a multi-agent conversational chat system
 6. **Multi-Turn**: Continue discussing; history is retained per session.
 
 ### Interface Overview
-
-![AgentRoom Interface](screenshots/Agentroom.png)
-
-*Main UI showing chat panel (left), controls (right), with agent toggles and mode selection.*
 
 ![Agent Response 1](screenshots/agentroom1.png)
 
