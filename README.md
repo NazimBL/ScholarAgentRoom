@@ -22,8 +22,6 @@ On this project I experimented building a multi-agent conversational chat system
 
 ---
 
-## Usage
-
 ### Core Workflow
 
 1. **Create New Session**: Click "New Session" to initialize a conversation thread.
