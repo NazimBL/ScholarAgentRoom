@@ -15,13 +15,15 @@ from .prompts import (
 
 load_dotenv()
 
+#MODEL_NAME = "meta-llama/Meta-Llama-3-8B-Instruct"
+MODEL_NAME = "nvidia/Llama-3.1-Nemotron-Nano-8B-v1"
 
 def build_model_client():
     from autogen_ext.models.openai import OpenAIChatCompletionClient
     from autogen_core.models import ModelInfo
 
     base_url = os.environ.get("LLM_BASE_URL", "http://localhost:8000/v1")
-    model = os.environ.get("LLM_MODEL", "meta-llama/Meta-Llama-3-8B-Instruct")
+    model = os.environ.get("LLM_MODEL", MODEL_NAME)
     api_key = os.environ.get("LLM_API_KEY", "local-dev-key")
 
     print(f"--- TACTICAL CHECK: Connecting to {base_url} with model {model} ---")

@@ -22,6 +22,8 @@ __pycache__/
 *.egg-info/
 dist/
 build/
+screenshots/
+sessions/
 
 # IDE
 .vscode/
