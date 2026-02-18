@@ -1,10 +1,16 @@
+import structlog
+
+from contextlib import asynccontextmanager
+
 from fastapi import FastAPI, HTTPException
 from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
-import structlog
+
+from pydantic import BaseModel, Field
+
 from .storage import new_session, load_session, save_session
 from .agents import run_panel_round
+
 
 # --- Logging Setup ---
 structlog.configure(
@@ -19,11 +25,6 @@ logger = structlog.get_logger()
 import os
 from .db import init_db
 
-# ... (existing imports)
-
-from contextlib import asynccontextmanager
-
-# ... (imports)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -56,9 +57,6 @@ app = FastAPI(lifespan=lifespan)
 # Make sure the frontend folder exists!
 app.mount("/static", StaticFiles(directory="frontend"), name="static")
 
-from pydantic import BaseModel, Field
-
-# ... (existing imports, but we need Field)
 
 class RunRoundReq(BaseModel):
     session_id: str
@@ -74,10 +72,6 @@ async def index():
 @app.post("/api/new_session")
 async def api_new_session():
     sid = new_session()
-    # Note: new_session only generates ID, save_session (async) handles file creation but we can skip it here
-    # or explicitly save empty history if needed. storage.new_session docstring says it handles it,
-    # but our new async storage.py doesn't actually call save_session in new_session anymore (checked diff).
-    # Let's fix that discrepancy by saving explicitly.
     await save_session(sid, [])
     logger.info("session_created", session_id=sid)
     return {"session_id": sid, "messages": []}
