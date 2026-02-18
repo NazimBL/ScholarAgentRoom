@@ -1,6 +1,7 @@
 import os
 import os
 import asyncio
+import yaml
 from dotenv import load_dotenv
 
 # Use the newer autogen packages
@@ -18,22 +19,48 @@ load_dotenv()
 #MODEL_NAME = "meta-llama/Meta-Llama-3-8B-Instruct"
 MODEL_NAME = "nvidia/Llama-3.1-Nemotron-Nano-8B-v1"
 
+def load_config():
+    """Load configuration from config.yaml if it exists."""
+    config_path = os.path.join(os.getcwd(), "config.yaml")
+    if os.path.exists(config_path):
+        try:
+            with open(config_path, "r") as f:
+                return yaml.safe_load(f)
+        except Exception as e:
+            print(f"Error loading config.yaml: {e}")
+            return None
+    return None
+
 def build_model_client():
     from autogen_ext.models.openai import OpenAIChatCompletionClient
     from autogen_core.models import ModelInfo
 
-    # Check for Gemini/Google usage
-    if os.environ.get("GEMINI_API_KEY"):
-        base_url = "https://generativelanguage.googleapis.com/v1beta/openai/"
-        api_key = os.environ["GEMINI_API_KEY"]
-        model = "gemini-1.5-flash"
-        print(f"--- DETECTED GEMINI_API_KEY: Switching to Google OpenAI Endpoint ({model}) ---")
-    else:
-        base_url = os.environ.get("LLM_BASE_URL", "http://localhost:8000/v1")
-        model = os.environ.get("LLM_MODEL", MODEL_NAME)
-        api_key = os.environ.get("LLM_API_KEY", "local-dev-key")
+    config = load_config()
+    
+    # Defaults
+    base_url = os.environ.get("LLM_BASE_URL", "http://localhost:8000/v1")
+    model = os.environ.get("LLM_MODEL", MODEL_NAME)
+    api_key = os.environ.get("LLM_API_KEY", "local-dev-key")
 
-    print(f"--- TACTICAL CHECK: Connecting to {base_url} with model {model} ---")
+    # Override from config.yaml if available
+    if config and "model" in config:
+        m_config = config["model"]
+        model = m_config.get("name", model)
+        base_url = m_config.get("base_url", base_url)
+        
+        # Resolve API Key from env var specified in config
+        env_var_name = m_config.get("api_key_env")
+        if env_var_name and env_var_name in os.environ:
+            api_key = os.environ[env_var_name]
+    
+    # Fallback legacy Gemini check (retain for backward compatibility if config missing)
+    elif os.environ.get("GEMINI_API_KEY"):
+         # Only use this if config didn't override already
+         base_url = "https://generativelanguage.googleapis.com/v1beta/openai/"
+         api_key = os.environ["GEMINI_API_KEY"]
+         model = "gemini-2.0-flash"
+
+    print(f"--- DETECTED CONFIG: Connecting to {base_url} with model {model} ---")
 
     return OpenAIChatCompletionClient(
         model=model,
@@ -43,7 +70,7 @@ def build_model_client():
             vision=False,
             function_calling=True,
             json_output=True,
-            family="unknown" # This bypasses the OpenAI-only check
+            family="unknown" 
         )
     )
 

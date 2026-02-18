@@ -1,0 +1,24 @@
+
+# ScholarAgentRoom Configuration
+
+# Default Model Configuration
+
+model:
+  name: "gemini-2.0-flash"
+  provider: "google"  # Options: google, openai, local
+  api_key_env: "GEMINI_API_KEY"
+  base_url: "https://generativelanguage.googleapis.com/v1beta/openai/"
+  
+# Local LLM (Ollama)
+# model:
+#   name: "llama3"
+#   provider: "local"
+#   api_key_env: "LLM_API_KEY"
+#   base_url: "http://host.docker.internal:11434/v1" 
+
+# OpenAI
+# model:
+#   name: "gpt-4o"
+#   provider: "openai"
+#   api_key_env: "OPENAI_API_KEY"
+#   base_url: "https://api.openai.com/v1"
