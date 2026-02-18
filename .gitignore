@@ -36,4 +36,5 @@ sessions/
 Thumbs.db
 
 # Sessions (optional - include if you want to share example sessions)
-# sessions/*.jsonsessions.db
+sessions/*.db
+*.db
