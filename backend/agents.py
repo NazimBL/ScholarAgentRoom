@@ -22,9 +22,16 @@ def build_model_client():
     from autogen_ext.models.openai import OpenAIChatCompletionClient
     from autogen_core.models import ModelInfo
 
-    base_url = os.environ.get("LLM_BASE_URL", "http://localhost:8000/v1")
-    model = os.environ.get("LLM_MODEL", MODEL_NAME)
-    api_key = os.environ.get("LLM_API_KEY", "local-dev-key")
+    # Check for Gemini/Google usage
+    if os.environ.get("GEMINI_API_KEY"):
+        base_url = "https://generativelanguage.googleapis.com/v1beta/openai/"
+        api_key = os.environ["GEMINI_API_KEY"]
+        model = "gemini-1.5-flash"
+        print(f"--- DETECTED GEMINI_API_KEY: Switching to Google OpenAI Endpoint ({model}) ---")
+    else:
+        base_url = os.environ.get("LLM_BASE_URL", "http://localhost:8000/v1")
+        model = os.environ.get("LLM_MODEL", MODEL_NAME)
+        api_key = os.environ.get("LLM_API_KEY", "local-dev-key")
 
     print(f"--- TACTICAL CHECK: Connecting to {base_url} with model {model} ---")
 
@@ -89,11 +96,10 @@ def _msg_to_text(msg):
     return getattr(msg, "content", str(msg))
 
 
-def run_panel_round(user_prompt: str, mode: str, enabled: list[str], history: list[dict], max_turns: int = 6):
+async def run_panel_round(user_prompt: str, mode: str, enabled: list[str], history: list[dict], max_turns: int = 6):
     """Run a single panel round and return new assistant messages.
 
-    This function is synchronous (keeps FastAPI handler simple) and will run
-    the autogen team in a blocking fashion using asyncio.run.
+    This function is now async to integrate with FastAPI's event loop.
     """
     moderator, bio, ai, reviewer, grant = build_agents(mode)
 
@@ -121,8 +127,8 @@ def run_panel_round(user_prompt: str, mode: str, enabled: list[str], history: li
 
     kickoff_msg = f"{context}\n\nUSER PROMPT: {user_prompt}\n\nModerator, please start the panel discussion."
 
-    # Run the team synchronously and collect messages
-    result = asyncio.run(team.run(task=kickoff_msg))
+    # Run the team asynchronously
+    result = await team.run(task=kickoff_msg)
 
     out = []
     for m in result.messages:
