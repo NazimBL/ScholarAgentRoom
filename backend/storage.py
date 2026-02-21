@@ -1,25 +1,30 @@
-import json
-import os
 import uuid
-from pathlib import Path
-
-# Look for sessions folder in the root
-SESS_DIR = Path(__file__).resolve().parent.parent / "sessions"
-SESS_DIR.mkdir(parents=True, exist_ok=True)
+from .db import async_session, SessionModel
+from sqlalchemy import select
 
 def new_session() -> str:
-    sid = str(uuid.uuid4())[:8] # Short ID for easier tracking
-    save_session(sid, [])
-    return sid
+    """Create a new session ID (UUID)."""
+    return str(uuid.uuid4())[:8]
 
-def load_session(session_id: str) -> list[dict]:
-    path = SESS_DIR / f"{session_id}.json"
-    if not path.exists():
+async def load_session(session_id: str) -> list[dict]:
+    """Load session history from database."""
+    async with async_session() as db:
+        result = await db.execute(select(SessionModel).where(SessionModel.id == session_id))
+        session_obj = result.scalar_one_or_none()
+        if session_obj:
+            return session_obj.messages
         return []
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
 
-def save_session(session_id: str, messages: list[dict]) -> None:
-    path = SESS_DIR / f"{session_id}.json"
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(messages, f, ensure_ascii=False, indent=2)
+async def save_session(session_id: str, messages: list[dict]) -> None:
+    """Save session history to database (Upsert)."""
+    async with async_session() as db:
+        result = await db.execute(select(SessionModel).where(SessionModel.id == session_id))
+        session_obj = result.scalar_one_or_none()
+        
+        if session_obj:
+            session_obj.messages = messages
+        else:
+            session_obj = SessionModel(id=session_id, messages=messages)
+            db.add(session_obj)
+        
+        await db.commit()
